@@ -1,0 +1,17 @@
+# Prevent from specific files to upload to github
+# API code
+secretApi.py
+
+# logging files
+.cometml-runs
+__pycache__
+checkpoint
+
+venv/*
+data/*.csv
+weights/*
+private.py
+
+# Other
+*.pdf
+*.pyc
