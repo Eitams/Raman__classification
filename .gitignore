@@ -5,7 +5,7 @@ secretApi.py
 # logging files
 .cometml-runs
 __pycache__
-checkpoint
+checkpoint/
 
 venv/*
 data/*.csv
