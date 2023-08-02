@@ -94,7 +94,6 @@ if __name__ == '__main__':
         'lr_change': ReduceLROnPlateau(optimizer, mode='min',factor=0.5, patience=100,verbose=1),
         'train': train_dl,
         'val': val_dl,
-        'weight_path': params['weights_path'],
         'experiment': experiment,
         'elasticnet': params["elasticnet"],
         'checkpoint_path': params["checkpoint_path"]
