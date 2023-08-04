@@ -25,14 +25,14 @@ Standard preprocessing steps were applied to all Raman spectroscopy samples. The
 5. **Smoothing**: A Savitzky-Golay filter was applied to the normalized spectrum to smooth out noise and enhance important spectral features.
 
 Figure 1: Labeled visualization of the Raman spectra dataset before stages 2 to 5 in the preprocessing pipeline.
-![](image.png)
+![](figures/image.png)
 
 ## Neural Network Structure
 
 The architecture of the neural network used in this project is depicted in Figure 2.
 
 Figure 2: Neural network structure
-![](image-1.png)
+![](figures/image-1.png)
 
 ## Intermittent Results
 
@@ -41,7 +41,7 @@ Figure 2: Neural network structure
 The training process began with low accuracy and high loss values, but as the training progressed, the model started to improve, and the accuracy on the validation set increased. The training log shows fluctuations in accuracy and loss over epochs, but the best model was saved at epoch 26, where the validation accuracy reached 83.33%. It's important to note that these fluctuations are observed in all runs and can be attributed to the very small dataset size of 20 samples (14 training and 6 validation). To obtain more reliable estimates of the model's performance, a cross-validation approach should be considered for the next steps.
 
 Figure 3: Loss and accuracy plots of experiment 8 visualized by Comet
-![](image-2.png)
+![](figures/image-2.png)
 
 Figure 4: Loss and accuracy plots of experiment 8 visualized with Matplotlib
 ![](graphs/8.png)
