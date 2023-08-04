@@ -3,7 +3,7 @@ from comet_ml import Experiment
 import time
 from project import Project
 from logger import logging
-from utils import device , show_dl, show_dataset, plot_validation
+from utils import device , plot_validation
 from data import get_dataloaders
 from secretApi import comet_api_key
 from pathlib import Path
@@ -31,23 +31,25 @@ if __name__ == '__main__':
         'model': '1dCNN-withElasticNet',
         'dataset': 'innerArm.csv',
         'seed': 42,
-        'checkpoint_path': project.checkpoint_dir.as_posix() + "/Exp1.pt",
+        'checkpoint_path': project.checkpoint_dir.as_posix() + "/Exp15.pt",
 
-        'Exp_name': "2",
+        # Name used to identify experiment in comet
+        'Exp_name': "15",
 
         # Model hyperparameters
         'lr': 0.0001,
-        'batch_size': 5,
-        'epochs': 500,
+        'batch_size': 4,
+        'epochs': 2000,
         'elasticnet': True,
-        
+        'regularization': 0.007,
+
         # convolution layer
         'out_channels':32,
         'kernel_size': 20,
 
         # Preprocessing
         'start_wave': 800,
-        'end_wave': 1600,
+        'end_wave': 1800,
         'test_size': 0.3,
         'normalization': True
         
@@ -96,7 +98,10 @@ if __name__ == '__main__':
         'val': val_dl,
         'experiment': experiment,
         'elasticnet': params["elasticnet"],
-        'checkpoint_path': params["checkpoint_path"]
+        'checkpoint_path': params["checkpoint_path"],
+        'Exp_name': params["Exp_name"],
+        'regularization': params["regularization"]
+
               }
    
     ## train and validation function return the selected train model,

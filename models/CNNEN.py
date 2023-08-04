@@ -1,5 +1,10 @@
+import numpy as np
+import torch.nn as nn
+
 def findConv1dOutShape(win, conv):
-    import numpy as np
+    '''
+    The function automatically calculate the output width of a 1 d CNN
+    '''
     # Get conv arguments
     kernel_size = conv.kernel_size[0]
     stride = conv.stride[0]
@@ -11,7 +16,9 @@ def findConv1dOutShape(win, conv):
     return int(wout)
 
 def findpollingOutShape(win, conv):
-    import numpy as np
+    '''
+    The function automatically calculate the output width of a pooling layer
+    '''
     # Get conv arguments
     kernel_size = conv.kernel_size
     stride = conv.stride
@@ -22,7 +29,7 @@ def findpollingOutShape(win, conv):
 
     return int(wout)
 
-import torch.nn as nn
+
 
 class RamanModel(nn.Module):
     def __init__(self, input_size, params):

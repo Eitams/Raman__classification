@@ -2,7 +2,6 @@ import numpy as np
 from .MyDataset import CustomDataset
 from torch.utils.data import DataLoader, random_split
 from logger import logging
-from torchvision.datasets.folder import ImageFolder
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from torchvision import transforms
@@ -12,8 +11,9 @@ from .utils import preprocess
 def get_dataloaders(df_dir,params):
     
     """
-    This function returns the train, val and test dataloaders.
+    This function returns the train and val dataloaders.
     """
+
     # create the datasets
     df = pd.read_csv(df_dir)
 

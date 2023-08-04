@@ -13,7 +13,7 @@ def get_lr(opt):
         return param_group['lr']
 
 # Function to compute the loss value per batch of data
-def loss_batch(loss_func, output, target, model, opt=None, elasticnet = False):
+def loss_batch(loss_func, output, target, model,reg_value = 0.001, opt=None, elasticnet = False):
     ## opt = True is used only for train loop
     ## elasticnet is used if regulazation if needed
 
@@ -21,8 +21,8 @@ def loss_batch(loss_func, output, target, model, opt=None, elasticnet = False):
 
     if elasticnet:
         # Add L1 and L2 regularization to the loss function
-        l1_lambda = 0.01  # Adjust this value for L1 regularization strength
-        l2_lambda = 0.01  # Adjust this value for L2 regularization strength
+        l1_lambda = reg_value  # Adjust this value for L1 regularization strength
+        l2_lambda = reg_value  # Adjust this value for L2 regularization strength
         l1_reg = torch.tensor(0.)
         l2_reg = torch.tensor(0.)
         # print(loss)
@@ -58,7 +58,7 @@ def loss_epoch(model,loss_func,dataset_dl, params, opt=None):
         xb=xb.to(device)
         yb=yb.to(device)
         output=model(xb) # get model output
-        loss_b,metric_b=loss_batch(loss_func, output, yb, model = model, opt = opt, elasticnet=params["elasticnet"]) # get loss per batch
+        loss_b,metric_b=loss_batch(loss_func, output, yb,  model = model, reg_value = params["regularization"], opt = opt, elasticnet=params["elasticnet"]) # get loss per batch
         run_loss+=loss_b        # update running loss
 
         if metric_b is not None: # update running metric

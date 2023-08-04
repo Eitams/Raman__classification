@@ -15,3 +15,8 @@ private.py
 # Other
 *.pdf
 *.pyc
+# Ignore PNG files in the main folder
+/*.png
+
+# But don't ignore PNG files in subfolders
+!/**/*.png
