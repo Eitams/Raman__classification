@@ -27,8 +27,8 @@ def loss_batch(loss_func, output, target, model,reg_value = 0.001, opt=None, ela
         l2_reg = torch.tensor(0.)
         # print(loss)
         for param in model.parameters():
-            l1_reg += torch.norm(param, 1)
-            l2_reg += torch.norm(param, 2)
+            l1_reg += torch.abs(torch.norm(param, 1))  # L1 regularization (absolute value)
+            l2_reg += torch.norm(param, 2)**2  # L2 regularization (squared value)
 
         loss = loss + l1_lambda * l1_reg + l2_lambda * l2_reg 
    
