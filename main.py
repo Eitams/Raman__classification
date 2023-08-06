@@ -11,9 +11,12 @@ from pathlib import Path
 from models.CNNEN import RamanModel
 import torch.optim as optim
 from torchsummary import summary
+import torch
 
 from torch.optim.lr_scheduler import ReduceLROnPlateau
 import torch.nn as nn
+import random
+import numpy as np
 
 from models.utils import train_val
 
@@ -31,15 +34,15 @@ if __name__ == '__main__':
         'model': '1dCNN-withElasticNet',
         'dataset': 'innerArm.csv',
         'seed': 42,
-        'checkpoint_path': project.checkpoint_dir.as_posix() + "/Exp15.pt",
+        'checkpoint_path': project.checkpoint_dir / 'Exp18.pt', #project.checkpoint_dir.as_posix() + "/Exp16.pt",
 
         # Name used to identify experiment in comet
-        'Exp_name': "15",
+        'Exp_name': "18",
 
         # Model hyperparameters
-        'lr': 0.0001,
+        'lr': 0.0003,
         'batch_size': 4,
-        'epochs': 2000,
+        'epochs': 500,
         'elasticnet': True,
         'regularization': 0.007,
 
@@ -59,6 +62,11 @@ if __name__ == '__main__':
     logging.info(f'Using device={device} 🚀')
 
     print(project.data_dir)
+    
+    # Set seeds for reproducibility
+    torch.manual_seed(params["seed"])
+    random.seed(params["seed"])
+    np.random.seed(params["seed"])
 
     # Importing data
     # get_dataloaders import the data, perform initial preprocess, arrange it as a dataset and set it as a dataloader
@@ -89,6 +97,8 @@ if __name__ == '__main__':
     ##  Training and validation loop
     ################################
     optimizer = optim.Adam(cnn1dEN.parameters(), lr=params['lr'])
+    # optimizer = optim.SGD(cnn1dEN.parameters(), lr=params['lr'], momentum=0.9)
+
     params_train = {
         'epochs': params["epochs"],
         'optimizer': optimizer,
@@ -108,6 +118,6 @@ if __name__ == '__main__':
     ## the training and validation loss and  the metric history in a dic format
     cnn1dEN,loss_hist,metric_hist = train_val(model=cnn1dEN, params=params_train, verbose=True)
 
-    plot_validation(loss_hist, metric_hist, params_train)
+    plot_validation(loss_hist, metric_hist, params_train, experiment)
     
     experiment.end()
