@@ -2,7 +2,9 @@
 
 ## Introduction
 
-The main purpose of this project was to achieve the following objectives:
+In this project, I built a one-dimensional CNN neural network with elastic net regularization. The network was aimed at identifying diabetic patients based on Raman spectroscopy measurements.
+
+On a personal level, the main purpose of this project was to achieve the following objectives:
 
 1. Enhance my PyTorch skills.
 2. Practice scalable and modular coding.
