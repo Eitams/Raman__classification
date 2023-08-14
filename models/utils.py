@@ -12,8 +12,9 @@ def get_lr(opt):
     for param_group in opt.param_groups:
         return param_group['lr']
 
+
 # Function to compute the loss value per batch of data
-def loss_batch(loss_func, output, target, model,reg_value = 0.001, opt=None, elasticnet = False):
+def loss_batch(loss_func, output, target, model,L1 = 0.001, L2 = 0.001, opt=None, elasticnet = False):
     ## opt = True is used only for train loop
     ## elasticnet is used if regulazation if needed
 
@@ -21,8 +22,8 @@ def loss_batch(loss_func, output, target, model,reg_value = 0.001, opt=None, ela
 
     if elasticnet:
         # Add L1 and L2 regularization to the loss function
-        l1_lambda = reg_value  # Adjust this value for L1 regularization strength
-        l2_lambda = reg_value  # Adjust this value for L2 regularization strength
+        l1_lambda = L1  # Adjust this value for L1 regularization strength
+        l2_lambda = L2 # Adjust this value for L2 regularization strength
         l1_reg = torch.tensor(0.)
         l2_reg = torch.tensor(0.)
         # print(loss)
@@ -58,7 +59,7 @@ def loss_epoch(model,loss_func,dataset_dl, params, opt=None):
         xb=xb.to(device)
         yb=yb.to(device)
         output=model(xb) # get model output
-        loss_b,metric_b=loss_batch(loss_func, output, yb,  model = model, reg_value = params["regularization"], opt = opt, elasticnet=params["elasticnet"]) # get loss per batch
+        loss_b,metric_b=loss_batch(loss_func, output, yb,  model = model, L1 = params["L1"], L2 = params["L2"], opt = opt, elasticnet=params["elasticnet"]) # get loss per batch
         run_loss+=loss_b        # update running loss
 
         if metric_b is not None: # update running metric
@@ -87,6 +88,7 @@ def train_val(model, params,verbose=False):
     best_loss=float('inf') # initialize best loss to a large value
     best_metric=0.0 # initialize best accuracy to 0
 
+    best_epoch = 0
     
     ''' Train Model n_epochs '''
     
@@ -175,3 +177,26 @@ def train_val(model, params,verbose=False):
     model.load_state_dict(best_model_wts)
         
     return model, loss_history, metric_history
+
+def calculate_average_metrics(fold_metric, metric_type):
+    """
+    Calculate average metrics across folds
+
+    Parameters:
+    - fold_metric (dict): A dictionary containing the metric values for each fold.
+    - metric_type (str): Type of metric to calculate ('train' or 'val').
+    """
+    # Initialize a variable to store the sum of metric lists
+    metric_key = 'train' if metric_type == 'train' else 'val'
+    metric_sum = [0] * len(fold_metric[list(fold_metric.keys())[0]][metric_key])
+
+    # Loop through each key-value pair in the dictionary
+    for value in fold_metric.values():
+        metric_sum = [x + y for x, y in zip(metric_sum, value[metric_key])]
+
+    # Calculate the average by dividing the sum by the total number of folds
+    num_folds = len(fold_metric)
+    average_metric = [x / num_folds for x in metric_sum]
+
+    return average_metric
+
