@@ -32,23 +32,24 @@ if __name__ == '__main__':
     params = {
         # project settings
         'model': '1dCNN-withElasticNet',
-        'dataset': 'innerArm.csv',
+        'dataset': 'earLobe.csv', #'innerArm.csv',
         'seed': 42,
-        'checkpoint_path': project.checkpoint_dir / 'Exp18.pt', #project.checkpoint_dir.as_posix() + "/Exp16.pt",
+        'checkpoint_path': project.checkpoint_dir / 'EL1.pt', #project.checkpoint_dir.as_posix() + "/Exp16.pt",
 
         # Name used to identify experiment in comet
-        'Exp_name': "18",
+        'Exp_name': "EL1",
 
         # Model hyperparameters
-        'lr': 0.0003,
+        'lr': 0.003,
         'batch_size': 4,
         'epochs': 500,
         'elasticnet': True,
-        'regularization': 0.007,
+        'L1': 0.0009,
+        'L2': 0.008,
 
         # convolution layer
         'out_channels':32,
-        'kernel_size': 20,
+        'kernel_size': 10,
 
         # Preprocessing
         'start_wave': 800,
@@ -110,7 +111,8 @@ if __name__ == '__main__':
         'elasticnet': params["elasticnet"],
         'checkpoint_path': params["checkpoint_path"],
         'Exp_name': params["Exp_name"],
-        'regularization': params["regularization"]
+        'L1': params["L1"],
+        'L2': params["L2"]
 
               }
    
