@@ -46,7 +46,7 @@ class RamanModel(nn.Module):
         self.flatten1 = nn.Flatten()
         # output shape (1, 50240) when len(single_input.shape[2]==3159)
         # Calculate the input size for the fully connected (linear) layer 12480
-        self.fc1 = nn.Linear(w * 32, 1)
+        self.fc1 = nn.Linear(w * params["out_channels"], 1)
         self.sig = nn.Sigmoid()
 
     def forward(self, x):
