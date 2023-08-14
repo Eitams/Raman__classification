@@ -7,6 +7,19 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 plt.interactive(False)
 
 def plot_validation(loss_hist, metric_hist, params_train, experiment):
+    """
+    Create a visualization of training and validation loss, as well as training and validation metric (accuracy)
+    over the course of training epochs for a machine learning experiment.
+
+    :param loss_hist: Dictionary containing training and validation loss history.
+    :param metric_hist: Dictionary containing training and validation metric (accuracy) history.
+    :param params_train: Dictionary containing training parameters.
+    :param experiment: Object for logging the experiment.
+
+    This function generates line plots using the seaborn library and displays them in a subplot layout.
+
+    """
+    
     import seaborn as sns; sns.set(style='whitegrid')
 
     epochs=params_train["epochs"]
@@ -27,5 +40,44 @@ def plot_validation(loss_hist, metric_hist, params_train, experiment):
     
     # Log the figure to your experiment
     #experiment.log_figure(figure_name="multiple_graphs", figure=plt)
+
+    plt.show()
+
+
+def plot_fold_acc(epochs, average_train_acc, average_val_acc, params):
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    sns.set(style='whitegrid')
+    plt.figure(figsize=(12, 5))
+    # plt.ylim(0, 1)
+    sns.lineplot(x=[*range(1, epochs + 1)], y=average_train_acc, label='Train average accuracy')
+    sns.lineplot(x=[*range(1, epochs + 1)], y=average_val_acc, label='Validation average accuracy')
+
+    plt.xlabel('Epoch')
+    plt.ylabel('Accuracy')
+    plt.title('Train and Validation Average Accuracy')
+    plt.legend()
+    plt.grid(True)
+
+    plt.savefig("graphs/" + params["Exp_name"] +'_avg_acc.png')
+    plt.show()
+
+def plot_fold_loss(epochs, average_train_loss, average_val_loss, params):
+    import seaborn as sns
+    import matplotlib.pyplot as plt
+    
+    sns.set(style='whitegrid')
+    plt.figure(figsize=(12, 5))
+    # plt.ylim(0, 0.8)
+    sns.lineplot(x=[*range(1, epochs + 1)], y=average_train_loss, label='Train average loss')
+    sns.lineplot(x=[*range(1, epochs + 1)], y=average_val_loss, label='Validation average loss')
+
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+    plt.title('Train and Validation Average loss')
+    plt.legend()
+    plt.grid(True)
+    plt.savefig("graphs/" + params["Exp_name"] +'_avg_loss.png')
 
     plt.show()
