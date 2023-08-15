@@ -36,8 +36,8 @@ The architecture of the neural network used in this project is depicted in Figur
 Figure 2: Neural network structure
 ![](figures/image-1.png)
 
-## Intermittent Results
 
+## Intermittent Results
 ### Experiment Number 8
 
 The training process began with low accuracy and high loss values, but as the training progressed, the model started to improve, and the accuracy on the validation set increased. The training log shows fluctuations in accuracy and loss over epochs, but the best model was saved at epoch 26, where the validation accuracy reached 83.33%. It's important to note that these fluctuations are observed in all runs and can be attributed to the very small dataset size of 20 samples (14 training and 6 validation). To obtain more reliable estimates of the model's performance, a cross-validation approach should be considered for the next steps.
@@ -48,7 +48,33 @@ Figure 3: Loss and accuracy plots of experiment 8 visualized by Comet
 Figure 4: Loss and accuracy plots of experiment 8 visualized with Matplotlib
 ![](graphs/8.png)
 
+Figure 5: Average results of 7 cross validation accuracy scores - inner arm experiment 8  
+![](graphs\IA_CV1_avg_acc.png)
 
+## Results
+The CNN architecture was trained and evaluated using Raman spectra collected from four different locations: the inner arm, earlobe, thumbnail, and vein. Due to the limited number of samples, and after evaluating intermittent results (refer to intermittent results), a cross-validation approach was applied to assess the outcomes (see main_cv.py).
+
+While the architecture's results applied to the data collected from the inner arm and thumbnail exhibited a high level of fluctuation, the results from the data collected from the vein and especially the earlobe displayed more stable and consistent outcomes. The best results were presented in the Earlobe Experiment Numbers 5.8 and 5.9. In EL exp 5.8, a rapid increase in training and validation average accuracy is visible until approximately epoch 30. At this point, the model remained within the range of 60% to 70% accuracy until reaching its high point of 76% to 82% accuracy at epochs around 220 to 240.  
+
+**Model 5.8 hyperparameters**  
+'lr': 0.0003, 'batch_size': 7, 'epochs': 500, 'elasticnet': True, 'L1': 0.001, 'L2': 0.01  
+
+**convolution layer**  
+'out_channels':32, 'kernel_size': 10  
+
+**Preprocessing**  
+'start_wave': 800, 'end_wave': 1800, 'normalization': True  
+
+Figure 6: Average results of 7 cross validation accuracy scores - Ear lobe experiment 5.8
+![Alt text](graphs\EL_CV5p8_avg_acc.png)
+
+Model 5.9, with a higher batch size (10 vs. 7), exhibits greater stability but a lower peak in accuracy results (76% vs. 82%).
+
+Figure 7: Average results of 7 cross validation accuracy scores - Ear lobe experiment 5.9
+![Alt text](graphs\EL_CV5p9_avg_acc.png)
+
+
+Hyperparameters selection and adaptation was preformed manually based on results.
 
 ## Installation
 
@@ -79,7 +105,7 @@ params = {
     'model': '1dCNN-withElasticNet',
     'dataset': 'innerArm.csv',
     'seed': 42,
-    'checkpoint_path': project.checkpoint_dir.as_posix() + "/Exp15.pt",
+    'checkpoint_path': project.checkpoint_dir / 'EL_CV5p5.pt',
 
     # Name used to identify experiment in comet
     'Exp_name': "15",
@@ -87,9 +113,10 @@ params = {
     # Model hyperparameters
     'lr': 0.0001,
     'batch_size': 4,
-    'epochs': 2000,
+    'epochs': 500,
     'elasticnet': True,
-    'regularization': 0.007,
+    'L1': 0.007,
+    'L2': 0.007,
 
     # convolution layer
     'out_channels': 32,
@@ -110,8 +137,12 @@ To train the model, run the training script with the specified hyperparameters:
 ```bash
 python main.py
 ```
+or for cross validation
+```bash
+python main_cv.py
+```
 
-Please ensure that the `innerArm.csv` dataset is in the appropriate location or update the `params['dataset']` accordingly.
+Please ensure that the `innerArm.csv`/'earLobe.csv' dataset is in the appropriate location or update the `params['dataset']` accordingly.
 
 
 
