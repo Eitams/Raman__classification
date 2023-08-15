@@ -49,7 +49,7 @@ Figure 4: Loss and accuracy plots of experiment 8 visualized with Matplotlib
 ![](graphs/8.png)
 
 Figure 5: Average results of 7 cross validation accuracy scores - inner arm experiment 8  
-![](graphs\IA_CV1_avg_acc.png)
+![](graphs/IA_CV1_avg_acc.png)
 
 ## Results
 The CNN architecture was trained and evaluated using Raman spectra collected from four different locations: the inner arm, earlobe, thumbnail, and vein. Due to the limited number of samples, and after evaluating intermittent results (refer to intermittent results), a cross-validation approach was applied to assess the outcomes (see main_cv.py).
