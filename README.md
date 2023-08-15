@@ -66,12 +66,12 @@ While the architecture's results applied to the data collected from the inner ar
 'start_wave': 800, 'end_wave': 1800, 'normalization': True  
 
 Figure 6: Average results of 7 cross validation accuracy scores - Ear lobe experiment 5.8  
-![Alt text](graphs\EL_CV5p8_avg_acc.png)
+![Alt text](graphs/EL_CV5p8_avg_acc.png)
 
 Model 5.9, with a higher batch size (10 vs. 7), exhibits greater stability but a lower peak in accuracy results (76% vs. 82%).
 
 Figure 7: Average results of 7 cross validation accuracy scores - Ear lobe experiment 5.9  
-![Alt text](graphs\EL_CV5p9_avg_acc.png)
+![Alt text](graphs/EL_CV5p9_avg_acc.png)
 
 
 Hyperparameters selection and adaptation was preformed manually based on results.
